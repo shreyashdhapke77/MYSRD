@@ -135,11 +135,11 @@ class HomeScreen extends React.Component {
             })}
           </Banner>
 
-          <TouchableOpacity onPress={onLatest}>
+          {/* <TouchableOpacity onPress={onLatest}>
             <View style={[styles.box, {backgroundColor: Colors.LIGHT_YELLOW}]}>
               <Text style={styles.buttonTitle}>Latest Movies</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity onPress={onNow}>
             <View style={[styles.box, {backgroundColor: Colors.LIGHT_GREEN}]}>
               <Text style={styles.buttonTitle}>Now Playing Movies</Text>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, FlatList, StyleSheet, Text} from 'react-native';
+import SkeletonLoading from '../../components/SkeletonLoading/SkeletonLoading';
 import {Colors} from '../../styles';
 import MovieComponent from './MovieComponent';
 
@@ -54,6 +55,10 @@ const TopRatedMoviesScreen = ({navigation}) => {
     renderMovieListView();
   };
 
+  const renderFooter = () => {
+    return <SkeletonLoading loadingType={'movieListLoader'} />;
+  };
+
   const renderItem = ({item, index}) => {
     return (
       <View key={index}>
@@ -71,7 +76,7 @@ const TopRatedMoviesScreen = ({navigation}) => {
           data={movieList}
           renderItem={renderItem}
           // ListHeaderComponent={renderHeader}
-          // ListFooterComponent={renderFooter}
+          ListFooterComponent={renderFooter}
           onEndReachedThreshold={0.2}
           onEndReached={nextPage}
         />

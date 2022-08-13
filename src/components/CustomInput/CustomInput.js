@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
+import {Colors} from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   input: {
-    height: 40,
+    height: 48,
   },
 });
 
@@ -36,7 +37,7 @@ export default class CustomInput extends React.Component {
     editable: true,
     placeholder: '',
     secureTextEntry: false,
-    bColor: '#e8e8e8',
+    bColor: Colors.BLACK,
   };
 
   render() {
@@ -44,7 +45,7 @@ export default class CustomInput extends React.Component {
       <View
         style={[
           styles.container,
-          {borderColor: this.props.bColor ? this.props.bColor : '#e8e8e8'},
+          {borderColor: this.props.bColor ? this.props.bColor : Colors.BLACK},
         ]}>
         <TextInput
           value={this.props.value ? this.props.value : ''}

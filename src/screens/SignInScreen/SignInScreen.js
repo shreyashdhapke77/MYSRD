@@ -32,6 +32,7 @@ class SignInScreen extends React.Component {
       isPasswordValid: true,
       userToken: '',
       isValid: false,
+      passwordFieldVisible: false,
     };
   }
 
@@ -57,6 +58,7 @@ class SignInScreen extends React.Component {
         this.setState({userToken: result.request_token});
       } else {
         ToastMessage.showErrorMessage(
+          'Error',
           'Timeout Please check your internet connection',
         );
       }
@@ -164,27 +166,30 @@ class SignInScreen extends React.Component {
             multiline={false}
             value={this.state.userName ? this.state.userName : ''}
             onChangeText={text => {
-              this.setState({userName: text});
+              this.setState({userName: text, passwordFieldVisible: true});
             }}
             editable={true}
             placeholder={'Username'}
             secureTextEntry={false}
             onSubmitEditing={() => {}}
           />
-          <CustomInput
-            bColor={!this.state.isPasswordValid ? Colors.PRIMARY : null}
-            multiline={false}
-            value={this.state.password}
-            onChangeText={text => {
-              this.setState({password: text});
-            }}
-            editable={true}
-            placeholder={'Password'}
-            secureTextEntry={true}
-            onSubmitEditing={() => {}}
-          />
-
-          <CustomButton onPress={this.onSignInPressed} text="Sign In" />
+          {this.state.passwordFieldVisible && this.state.userName && (
+            <>
+              <CustomInput
+                bColor={!this.state.isPasswordValid ? Colors.PRIMARY : null}
+                multiline={false}
+                value={this.state.password}
+                onChangeText={text => {
+                  this.setState({password: text});
+                }}
+                editable={true}
+                placeholder={'Password'}
+                secureTextEntry={true}
+                onSubmitEditing={() => {}}
+              />
+              <CustomButton onPress={this.onSignInPressed} text="Sign In" />
+            </>
+          )}
 
           <CustomButton
             text="Forgot password?"
