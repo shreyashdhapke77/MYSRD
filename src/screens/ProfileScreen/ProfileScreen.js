@@ -102,8 +102,8 @@ class ProfileScreen extends React.Component {
       const result = await response.json();
       if (result.success) {
         deleteSessionId();
-        this.props.navigation.navigate('SignIn');
       }
+      this.props.navigation.navigate('SignIn');
     } catch (error) {
       console.log('error  == ', error);
     }

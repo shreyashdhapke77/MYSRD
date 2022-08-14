@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const storeSessionId = async id => {
   try {
-    //   await AsyncStorage.setItem('@storage_user_id_key', id);
     await AsyncStorage.setItem('session_id', id);
   } catch (e) {
     // saving error

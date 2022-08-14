@@ -50,7 +50,6 @@ class SignInScreen extends React.Component {
     this.state = {
       userName: '',
       password: '',
-      isLoading: false,
       isEmailValid: true,
       isPasswordValid: true,
       userToken: '',
@@ -62,6 +61,11 @@ class SignInScreen extends React.Component {
 
   componentDidMount() {
     this.getAccessToken();
+    this.setState({userName: '', password: ''});
+  }
+
+  componentWillUnmount() {
+    this.setState({userName: '', password: ''});
   }
 
   getAccessToken = async () => {
@@ -91,7 +95,7 @@ class SignInScreen extends React.Component {
     }
   };
 
-  generateSession = async accessToken => {
+  generateLoginSession = async accessToken => {
     let payload = {};
     if (accessToken) {
       payload = {
@@ -158,9 +162,9 @@ class SignInScreen extends React.Component {
   onSignInPressed = async () => {
     this.validData();
     if (this.validData()) {
-      await this.generateSession(this.state.userToken);
+      await this.generateLoginSession(this.state.userToken);
       if (this.state.isValid) {
-        ToastMessage.showSuccessMessage('Successfully signed in');
+        ToastMessage.showSuccessMessage('Success', 'Successfully signed in');
         this.props.navigation.navigate('Home');
         this.setState({isValid: false});
       }
@@ -221,7 +225,7 @@ class SignInScreen extends React.Component {
           <CustomInput
             bColor={!this.state.isEmailValid ? Colors.PRIMARY : null}
             multiline={false}
-            value={this.state.userName ? this.state.userName : ''}
+            value={this.state.userName}
             onChangeText={text => {
               this.setState({userName: text, passwordFieldVisible: true});
             }}
@@ -234,7 +238,7 @@ class SignInScreen extends React.Component {
             <>
               <View style={{margin: -10, marginTop: 5}}>
                 <Input
-                  value={this.state.password ? this.state.password : ''}
+                  value={this.state.password}
                   onSubmitEditing={() => {}}
                   multiline={false}
                   onChangeText={text => {
