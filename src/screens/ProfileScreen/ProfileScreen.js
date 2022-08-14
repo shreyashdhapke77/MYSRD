@@ -12,6 +12,7 @@ import CustomInput from '../../components/CustomInput/CustomInput';
 import Logo from '../../../assets/images/my_img.png';
 import {Colors} from '../../styles';
 import {ToastMessage} from '../../helpers/ToastMessage';
+import {getSessionId} from '../../helpers/LocalStorage';
 
 const {height} = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -43,8 +44,40 @@ class ProfileScreen extends React.Component {
       email: '',
       mobile: '',
       isEditable: false,
+      sessionId: '',
     };
   }
+
+  componentDidMount = async () => {
+    const userSessionId = await getSessionId();
+    this.setState({sessionId: userSessionId});
+    this.getUserDetails(this.state.sessionId);
+  };
+
+  getUserDetails = async sessionId => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/account?api_key=28cdf46619e7d18e948d072ccb6f0fbb&session_id=${sessionId}`,
+        requestOptions,
+      );
+      const result = await response.json();
+      if (result) {
+        this.setState({name: result.name});
+        this.setState({userName: result.username});
+      } else {
+        ToastMessage.showErrorMessage('Error', result.status_message);
+      }
+    } catch (error) {
+      console.log('error  == ', error);
+    }
+  };
 
   signOut = () => {
     Alert.alert('Are you sure you want to sign out', '', [

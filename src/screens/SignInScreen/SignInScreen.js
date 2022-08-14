@@ -1,11 +1,22 @@
 import React from 'react';
-import {View, Image, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import Logo from '../../../assets/images/my_img.png';
+import ShowPassword from '../../../assets/images/show_password.png';
+import HidePassword from '../../../assets/images/hide_password.png';
 import CustomInput from '../../components/CustomInput/CustomInput.js';
 import CustomButton from '../../components/CustomButton/CustomButton.js';
 import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSignInButtons.js';
 import {ToastMessage} from '../../helpers/ToastMessage';
 import {Colors} from '../../styles';
+import {Input} from 'react-native-elements';
+import {storeSessionId} from '../../helpers/LocalStorage';
 
 const {height} = Dimensions.get('window');
 
@@ -18,6 +29,18 @@ const styles = StyleSheet.create({
     width: '70%',
     maxWidth: 300,
     maxHeight: 200,
+  },
+  container: {
+    backgroundColor: 'white',
+    width: '100%',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    margin: -10,
+    marginVertical: 5,
+  },
+  input: {
+    height: 48,
   },
 });
 
@@ -33,6 +56,7 @@ class SignInScreen extends React.Component {
       userToken: '',
       isValid: false,
       passwordFieldVisible: false,
+      isShowPassword: true,
     };
   }
 
@@ -91,13 +115,41 @@ class SignInScreen extends React.Component {
         requestOptions,
       );
       const result = await response.json();
-      console.log('Result =====> ', result);
       if (result.success) {
         this.setState({isValid: true});
+        this.generateSessionId(result.request_token);
       } else {
         this.setState({isEmailValid: false, isPasswordValid: false});
         ToastMessage.showErrorMessage('Error', result.status_message);
       }
+    } catch (error) {
+      console.log('error  == ', error);
+    }
+  };
+
+  generateSessionId = async accessToken => {
+    let payload = {};
+    if (accessToken) {
+      payload = {
+        request_token: accessToken,
+      };
+    }
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/authentication/session/new?api_key=28cdf46619e7d18e948d072ccb6f0fbb`,
+        requestOptions,
+      );
+      const result = await response.json();
+      storeSessionId(result.session_id);
     } catch (error) {
       console.log('error  == ', error);
     }
@@ -108,7 +160,6 @@ class SignInScreen extends React.Component {
     if (this.validData()) {
       await this.generateSession(this.state.userToken);
       if (this.state.isValid) {
-        console.log('IS Valid =====> ', this.state.isValid);
         ToastMessage.showSuccessMessage('Successfully signed in');
         this.props.navigation.navigate('Home');
         this.setState({isValid: false});
@@ -151,6 +202,12 @@ class SignInScreen extends React.Component {
     return false;
   };
 
+  showHidePassword = () => {
+    this.setState(prevState => ({
+      isShowPassword: !prevState.isShowPassword,
+    }));
+  };
+
   render() {
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -175,7 +232,41 @@ class SignInScreen extends React.Component {
           />
           {this.state.passwordFieldVisible && this.state.userName && (
             <>
-              <CustomInput
+              <View style={{margin: -10, marginTop: 5}}>
+                <Input
+                  value={this.state.password ? this.state.password : ''}
+                  onSubmitEditing={() => {}}
+                  multiline={false}
+                  onChangeText={text => {
+                    this.setState({password: text});
+                  }}
+                  editable={true}
+                  placeholder={'Password'}
+                  style={{width: '100%'}}
+                  inputContainerStyle={[
+                    styles.container,
+                    {
+                      borderColor: this.state.isPasswordValid
+                        ? Colors.BLACK
+                        : Colors.PRIMARY,
+                    },
+                  ]}
+                  secureTextEntry={this.state.isShowPassword}
+                  rightIcon={
+                    <TouchableOpacity onPress={this.showHidePassword}>
+                      <Image
+                        source={
+                          !this.state.isShowPassword
+                            ? ShowPassword
+                            : HidePassword
+                        }
+                        style={{width: 25, height: 25}}
+                      />
+                    </TouchableOpacity>
+                  }
+                />
+              </View>
+              {/* <CustomInput
                 bColor={!this.state.isPasswordValid ? Colors.PRIMARY : null}
                 multiline={false}
                 value={this.state.password}
@@ -186,7 +277,7 @@ class SignInScreen extends React.Component {
                 placeholder={'Password'}
                 secureTextEntry={true}
                 onSubmitEditing={() => {}}
-              />
+              /> */}
               <CustomButton onPress={this.onSignInPressed} text="Sign In" />
             </>
           )}
