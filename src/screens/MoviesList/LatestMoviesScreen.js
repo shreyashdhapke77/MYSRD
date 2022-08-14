@@ -60,7 +60,7 @@ const LatestMoviesScreen = () => {
     };
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/latest?api_key=28cdf46619e7d18e948d072ccb6f0fbb&language=en-US`,
+        'https://api.themoviedb.org/3/movie/latest?api_key=28cdf46619e7d18e948d072ccb6f0fbb&language=en-US',
         requestOptions,
       );
       const result = await response.json();

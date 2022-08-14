@@ -74,7 +74,7 @@ class SignInScreen extends React.Component {
     };
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/authentication/token/new?api_key=28cdf46619e7d18e948d072ccb6f0fbb`,
+        'https://api.themoviedb.org/3/authentication/token/new?api_key=28cdf46619e7d18e948d072ccb6f0fbb',
         requestOptions,
       );
       const result = await response.json();
@@ -111,7 +111,7 @@ class SignInScreen extends React.Component {
 
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=28cdf46619e7d18e948d072ccb6f0fbb`,
+        'https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=28cdf46619e7d18e948d072ccb6f0fbb',
         requestOptions,
       );
       const result = await response.json();
@@ -145,7 +145,7 @@ class SignInScreen extends React.Component {
 
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/authentication/session/new?api_key=28cdf46619e7d18e948d072ccb6f0fbb`,
+        'https://api.themoviedb.org/3/authentication/session/new?api_key=28cdf46619e7d18e948d072ccb6f0fbb',
         requestOptions,
       );
       const result = await response.json();
