@@ -12,7 +12,7 @@ import CustomInput from '../../components/CustomInput/CustomInput';
 import Logo from '../../../assets/images/my_img.png';
 import {Colors} from '../../styles';
 import {ToastMessage} from '../../helpers/ToastMessage';
-import {getSessionId} from '../../helpers/LocalStorage';
+import {deleteSessionId, getSessionId} from '../../helpers/LocalStorage';
 
 const {height} = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -44,14 +44,12 @@ class ProfileScreen extends React.Component {
       email: '',
       mobile: '',
       isEditable: false,
-      sessionId: '',
     };
   }
 
   componentDidMount = async () => {
     const userSessionId = await getSessionId();
-    this.setState({sessionId: userSessionId});
-    this.getUserDetails(this.state.sessionId);
+    this.getUserDetails(userSessionId);
   };
 
   getUserDetails = async sessionId => {
@@ -79,12 +77,44 @@ class ProfileScreen extends React.Component {
     }
   };
 
+  deleteSession = async () => {
+    const userSessionId = await getSessionId();
+    let payload = {};
+    if (userSessionId) {
+      payload = {
+        session_id: userSessionId,
+      };
+    }
+    const requestOptions = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    try {
+      const response = await fetch(
+        'https://api.themoviedb.org/3/authentication/session?api_key=28cdf46619e7d18e948d072ccb6f0fbb',
+        requestOptions,
+      );
+      const result = await response.json();
+      if (result.success) {
+        deleteSessionId();
+        this.props.navigation.navigate('SignIn');
+      }
+    } catch (error) {
+      console.log('error  == ', error);
+    }
+  };
+
   signOut = () => {
     Alert.alert('Are you sure you want to sign out', '', [
       {
         text: 'Yes',
         onPress: () => {
-          this.props.navigation.navigate('SignIn');
+          this.deleteSession();
         },
       },
       {text: 'Cancel', onPress: () => {}},

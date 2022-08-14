@@ -18,8 +18,15 @@ export const getSessionId = async () => {
     }
     return null;
   } catch (e) {
-    console.log('eroorrrrooroorororo');
     // error reading value
     return null;
+  }
+};
+
+export const deleteSessionId = async () => {
+  try {
+    await AsyncStorage.removeItem('session_id');
+  } catch (error) {
+    // Error retrieving data
   }
 };
