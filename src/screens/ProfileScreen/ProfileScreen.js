@@ -13,6 +13,7 @@ import Logo from '../../../assets/images/my_img.png';
 import {Colors} from '../../styles';
 import {ToastMessage} from '../../helpers/ToastMessage';
 import {deleteSessionId, getSessionId} from '../../helpers/LocalStorage';
+import Constants from '../../helpers/Constants';
 
 const {height} = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -62,7 +63,7 @@ class ProfileScreen extends React.Component {
     };
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/account?api_key=28cdf46619e7d18e948d072ccb6f0fbb&session_id=${sessionId}`,
+        `${Constants.BASE_URL}/3/account?api_key=${Constants.API_KEY}&session_id=${sessionId}`,
         requestOptions,
       );
       const result = await response.json();
@@ -96,7 +97,7 @@ class ProfileScreen extends React.Component {
 
     try {
       const response = await fetch(
-        'https://api.themoviedb.org/3/authentication/session?api_key=28cdf46619e7d18e948d072ccb6f0fbb',
+        `${Constants.BASE_URL}/3/authentication/session?api_key=${Constants.API_KEY}`,
         requestOptions,
       );
       const result = await response.json();

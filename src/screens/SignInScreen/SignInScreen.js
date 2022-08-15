@@ -17,6 +17,7 @@ import {ToastMessage} from '../../helpers/ToastMessage';
 import {Colors} from '../../styles';
 import {Input} from 'react-native-elements';
 import {storeSessionId} from '../../helpers/LocalStorage';
+import Constants from '../../helpers/Constants';
 
 const {height} = Dimensions.get('window');
 
@@ -78,7 +79,7 @@ class SignInScreen extends React.Component {
     };
     try {
       const response = await fetch(
-        'https://api.themoviedb.org/3/authentication/token/new?api_key=28cdf46619e7d18e948d072ccb6f0fbb',
+        `${Constants.BASE_URL}/3/authentication/token/new?api_key=${Constants.API_KEY}`,
         requestOptions,
       );
       const result = await response.json();
@@ -115,7 +116,7 @@ class SignInScreen extends React.Component {
 
     try {
       const response = await fetch(
-        'https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=28cdf46619e7d18e948d072ccb6f0fbb',
+        `${Constants.BASE_URL}/3/authentication/token/validate_with_login?api_key=${Constants.API_KEY}`,
         requestOptions,
       );
       const result = await response.json();
@@ -149,7 +150,7 @@ class SignInScreen extends React.Component {
 
     try {
       const response = await fetch(
-        'https://api.themoviedb.org/3/authentication/session/new?api_key=28cdf46619e7d18e948d072ccb6f0fbb',
+        `${Constants.BASE_URL}/3/authentication/session/new?api_key=${Constants.API_KEY}`,
         requestOptions,
       );
       const result = await response.json();

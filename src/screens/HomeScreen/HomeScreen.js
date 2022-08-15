@@ -55,12 +55,12 @@ const styles = StyleSheet.create({
   },
   banner: {
     width: width,
-    height: 200,
+    height: 300,
     backgroundColor: 'white',
   },
   iconSize: {
     width: width,
-    height: 200,
+    height: 300,
   },
 });
 
@@ -85,9 +85,9 @@ class HomeScreen extends React.Component {
       this.props.navigation.navigate('Profile');
     };
 
-    const onLatest = () => {
-      this.props.navigation.navigate('LatestMovies');
-    };
+    // const onLatest = () => {
+    //   this.props.navigation.navigate('LatestMovies');
+    // };
 
     const onNow = () => {
       this.props.navigation.navigate('NowPlayingMovies');

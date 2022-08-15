@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, FlatList, StyleSheet, Text} from 'react-native';
 import SkeletonLoading from '../../components/SkeletonLoading/SkeletonLoading';
+import Constants from '../../helpers/Constants';
 import {Colors} from '../../styles';
 import MovieComponent from './MovieComponent';
 
@@ -37,7 +38,7 @@ const UpcomingMoviesScreen = ({navigation}) => {
     };
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=28cdf46619e7d18e948d072ccb6f0fbb&language=en-US&page=${pgNo}`,
+        `${Constants.BASE_URL}/3/movie/upcoming?api_key=${Constants.API_KEY}&language=en-US&page=${pgNo}`,
         requestOptions,
       );
       const result = await response.json();

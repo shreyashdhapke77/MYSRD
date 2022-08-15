@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text, Image, ScrollView, Linking} from 'react-native';
+import Constants from '../../helpers/Constants';
 import {Colors, Font} from '../../styles';
 
 const styles = StyleSheet.create({
@@ -48,7 +49,7 @@ const MovieDetailsScreen = ({navigation, route}) => {
     };
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}?api_key=28cdf46619e7d18e948d072ccb6f0fbb&language=en-US`,
+        `${Constants.BASE_URL}/3/movie/${movieId}?api_key=${Constants.API_KEY}&language=en-US`,
         requestOptions,
       );
       const result = await response.json();
