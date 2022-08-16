@@ -1,5 +1,8 @@
 import React from 'react';
-import CustomButton from '../CustomButton/CustomButton.js';
+import {Button, Image} from 'react-native-elements';
+import facebook from '../../../assets/images/facebook.png';
+import google from '../../../assets/images/google.png';
+import apple from '../../../assets/images/apple.png';
 
 const SocialSignInButtons = () => {
   const onSignInFacebook = () => {
@@ -16,23 +19,61 @@ const SocialSignInButtons = () => {
 
   return (
     <>
-      <CustomButton
-        text="Sign In with Facebook"
+      <Button
         onPress={onSignInFacebook}
-        bgColor="#E7EAF4"
-        fgColor="#4765A9"
+        title={'Sign in with Facebook'}
+        type="solid"
+        containerStyle={{width: '100%', height: 50, marginBottom: 10}}
+        buttonStyle={{
+          height: 50,
+          backgroundColor: '#E7EAF4',
+          justifyContent: 'flex-start',
+        }}
+        titleStyle={{color: '#4765A9'}}
+        icon={
+          <Image
+            source={facebook}
+            style={{width: 30, height: 30, marginRight: 10}}
+          />
+        }
       />
-      <CustomButton
-        text="Sign In with Google"
+
+      <Button
         onPress={onSignInGoogle}
-        bgColor="#FAE9EA"
-        fgColor="#DD4D44"
+        title={'Sign in with Google'}
+        type="solid"
+        containerStyle={{width: '100%', height: 50, marginBottom: 10}}
+        buttonStyle={{
+          height: 50,
+          backgroundColor: '#FAE9EA',
+          justifyContent: 'flex-start',
+        }}
+        titleStyle={{color: '#DD4D44'}}
+        icon={
+          <Image
+            source={google}
+            style={{width: 30, height: 30, marginRight: 10}}
+          />
+        }
       />
-      <CustomButton
-        text="Sign In with Apple"
+
+      <Button
         onPress={onSignInApple}
-        bgColor="#e3e3e3"
-        fgColor="#363636"
+        title={'Sign in with Apple'}
+        type="solid"
+        containerStyle={{width: '100%', height: 50, marginBottom: 10}}
+        buttonStyle={{
+          height: 50,
+          backgroundColor: '#e3e3e3',
+          justifyContent: 'flex-start',
+        }}
+        titleStyle={{color: '#363636'}}
+        icon={
+          <Image
+            source={apple}
+            style={{width: 30, height: 30, marginRight: 10}}
+          />
+        }
       />
     </>
   );

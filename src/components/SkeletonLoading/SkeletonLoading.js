@@ -3,7 +3,7 @@ import {Dimensions, StyleSheet, View} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {Colors} from '../../styles';
 
-const width = Dimensions.get('window');
+const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   movieListCellView: {
@@ -20,7 +20,7 @@ const SkeletonLoading = ({loadingType}) => {
     return (
       <View style={styles.movieListCellView}>
         <SkeletonPlaceholder>
-          <SkeletonPlaceholder.Item width={350} height={50} margin={10} />
+          <SkeletonPlaceholder.Item width={'100%'} height={50} padding={10} />
           <SkeletonPlaceholder.Item flexDirection="column" alignItems="center">
             <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
               <SkeletonPlaceholder.Item

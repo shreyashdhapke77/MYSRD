@@ -54,19 +54,9 @@ class SignInScreen extends React.Component {
       isEmailValid: true,
       isPasswordValid: true,
       userToken: '',
-      isValid: false,
       passwordFieldVisible: false,
       isShowPassword: true,
     };
-  }
-
-  componentDidMount() {
-    this.getAccessToken();
-    this.setState({userName: '', password: ''});
-  }
-
-  componentWillUnmount() {
-    this.setState({userName: '', password: ''});
   }
 
   getAccessToken = async () => {
@@ -84,6 +74,7 @@ class SignInScreen extends React.Component {
       );
       const result = await response.json();
       if (result.success) {
+        this.generateLoginSession(result.request_token);
         this.setState({userToken: result.request_token});
       } else {
         ToastMessage.showErrorMessage(
@@ -121,7 +112,8 @@ class SignInScreen extends React.Component {
       );
       const result = await response.json();
       if (result.success) {
-        this.setState({isValid: true});
+        ToastMessage.showSuccessMessage('Success', 'Successfully signed in');
+        this.props.navigation.navigate('Home');
         this.generateSessionId(result.request_token);
       } else {
         this.setState({isEmailValid: false, isPasswordValid: false});
@@ -163,12 +155,7 @@ class SignInScreen extends React.Component {
   onSignInPressed = async () => {
     this.validData();
     if (this.validData()) {
-      await this.generateLoginSession(this.state.userToken);
-      if (this.state.isValid) {
-        ToastMessage.showSuccessMessage('Success', 'Successfully signed in');
-        this.props.navigation.navigate('Home');
-        this.setState({isValid: false});
-      }
+      await this.getAccessToken();
     }
   };
 
